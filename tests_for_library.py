@@ -1,5 +1,5 @@
 import unittest
-from library import Library,Book
+from library import Library,Book,BookNotFoundError,BookUnavailableError
 
 class TestLibrary(unittest.TestCase):
 
@@ -22,6 +22,16 @@ class TestLibrary(unittest.TestCase):
         self.library.add_book(self.book1)
         self.library.borrow_book("1234567890")
         self.assertFalse(self.book1.available)
+
+    def test_borrow_unavailable_book(self):
+        self.library.add_book(self.book1)
+        self.library.borrow_book("1234567890")
+        with self.assertRaises(BookUnavailableError):
+            self.library.borrow_book("1234567890")
+
+    def test_borrow_nonexistent_book(self):
+        with self.assertRaises(BookNotFoundError):
+            self.library.borrow_book("9999999999")
 
 if __name__ == "__main__":
     unittest.main()
