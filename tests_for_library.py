@@ -33,5 +33,11 @@ class TestLibrary(unittest.TestCase):
         with self.assertRaises(BookNotFoundError):
             self.library.borrow_book("9999999999")
 
+    def test_return_book(self):
+        self.library.add_book(self.book1)
+        self.library.borrow_book("1234567890")
+        self.library.return_book("1234567890")
+        self.assertTrue(self.book1.available)
+
 if __name__ == "__main__":
     unittest.main()
